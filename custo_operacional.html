@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Custo Operacional</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            margin-top: 10px;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Calculadora de Custo Operacional</h2>
+        <table id="custosTable">
+            <tr>
+                <th>Descrição</th>
+                <th>Valor (R$)</th>
+            </tr>
+            <tr>
+                <td>Aluguel</td>
+                <td><input type="number" class="custo" value="0" min="0" step="0.1"></td>
+            </tr>
+            <tr>
+                <td>Energia</td>
+                <td><input type="number" class="custo" value="0" min="0" step="0.1"></td>
+            </tr>
+            <tr>
+                <td>Funcionários</td>
+                <td><input type="number" class="custo" value="0" min="0" step="0.1"></td>
+            </tr>
+        </table>
+        <button onclick="adicionarCusto()">Adicionar Custo</button>
+
+        <label for="horasTrabalho">Horas Trabalhadas por Mês:</label>
+        <input type="number" id="horasTrabalho" placeholder="Total de horas trabalhadas por mês" min="0" step="1">
+
+        <button onclick="calcularValorHora()">Calcular Valor da Hora</button>
+
+        <h3>Valor da Hora de Trabalho: <span id="resultadoHora">R$ 0,00</span></h3>
+    </div>
+
+    <script>
+        function calcularValorHora() {
+            let custos = document.getElementsByClassName("custo");
+            let totalCustos = 0;
+            for (let i = 0; i < custos.length; i++) {
+                totalCustos += parseFloat(custos[i].value) || 0;
+            }
+            let horasTrabalho = parseFloat(document.getElementById("horasTrabalho").value) || 1;
+            let valorHora = totalCustos / horasTrabalho;
+            
+            document.getElementById("resultadoHora").textContent = `R$ ${valorHora.toFixed(2)}`;
+        }
+
+        function adicionarCusto() {
+            let tabela = document.getElementById("custosTable");
+            let novaLinha = tabela.insertRow();
+            let celulaDescricao = novaLinha.insertCell(0);
+            let celulaValor = novaLinha.insertCell(1);
+            
+            celulaDescricao.innerHTML = '<input type="text" placeholder="Descrição">';
+            celulaValor.innerHTML = '<input type="number" class="custo" value="0" min="0" step="0.1">';
+        }
+    </script>
+</body>
+</html>

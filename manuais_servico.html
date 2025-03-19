@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manuais de Serviço</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f8f8f8;
+            border-radius: 5px;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+        .search-box {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Manuais de Serviço</h2>
+        <p>Selecione a marca para visualizar os manuais disponíveis:</p>
+        <ul id="listaMarcas"></ul>
+        <input type="text" class="search-box" id="searchInput" placeholder="Buscar manual..." onkeyup="filtrarManuais()">
+        <ul id="listaManuais"></ul>
+    </div>
+
+    <script>
+        const manuais = {
+            "Honda": [
+                { nome: "Manual Honda CG 160", arquivo: "manuais/honda_cg_160.pdf" },
+                { nome: "Manual Honda XRE 300", arquivo: "manuais/honda_xre_300.pdf" }
+            ],
+            "Yamaha": [
+                { nome: "Manual Yamaha Fazer 250", arquivo: "manuais/yamaha_fazer_250.pdf" },
+                { nome: "Manual Yamaha MT-03", arquivo: "manuais/yamaha_mt03.pdf" }
+            ],
+            "Suzuki": [
+                { nome: "Manual Suzuki GSX-S750", arquivo: "manuais/suzuki_gsx_s750.pdf" }
+            ],
+            "Kawasaki": [
+                { nome: "Manual Kawasaki Ninja 400", arquivo: "manuais/kawasaki_ninja_400.pdf" }
+            ],
+            "BMW": [
+
+            ],
+            "Triumph": [
+
+            ],
+            "Ducati": [
+            
+            ],
+            "Harley-Davidson": [
+
+            ],
+            "KTM": [
+
+            ],
+            "Royal Enfield": [
+
+            ],
+            "Bajaj": [
+
+            ],
+            "MV Agusta": [
+
+            ],
+            "Aprilia": [
+
+            ],
+            "CFMoto": [
+
+            ],
+            "Husqvarna": [
+
+            ]
+        };
+
+        function carregarMarcas() {
+            let listaMarcas = document.getElementById("listaMarcas");
+            let marcasOrdenadas = Object.keys(manuais).sort(); // Ordena as marcas alfabeticamente
+            listaMarcas.innerHTML = "";
+            marcasOrdenadas.forEach(marca => {
+                let item = document.createElement("li");
+                let totalManuais = manuais[marca].length;
+                item.innerHTML = `<button onclick="carregarManuais('${marca}')">${marca} (${totalManuais})</button>`;
+                listaMarcas.appendChild(item);
+            });
+        }
+
+        function carregarManuais(marca) {
+            let lista = document.getElementById("listaManuais");
+            let searchBox = document.getElementById("searchInput");
+            lista.innerHTML = "";
+            searchBox.style.display = "block"; // Exibe a barra de pesquisa ao selecionar uma marca
+            manuais[marca].forEach(manual => {
+                let item = document.createElement("li");
+                item.innerHTML = `<a href="${manual.arquivo}" download>${manual.nome}</a>`;
+                lista.appendChild(item);
+            });
+        }
+
+        function filtrarManuais() {
+            let input = document.getElementById("searchInput").value.toLowerCase();
+            let lista = document.getElementById("listaManuais").getElementsByTagName("li");
+            for (let i = 0; i < lista.length; i++) {
+                let texto = lista[i].textContent.toLowerCase();
+                lista[i].style.display = texto.includes(input) ? "" : "none";
+            }
+        }
+
+        carregarMarcas();
+    </script>
+</body>
+</html>
